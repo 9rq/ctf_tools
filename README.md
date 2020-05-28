@@ -1,9 +1,9 @@
-##CTF初心者による勉強のために作成したツール
+## CTF初心者による勉強のために作成したツール
 
-###TCP tool
+### TCP tool
 netcatの代わりに使えるようにしたい
 
-- Clinet
+- Client
     - send
     - recieve
     - interactive
