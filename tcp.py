@@ -158,7 +158,7 @@ class Client():
         recieve_handler.setDaemon(True)
         recieve_handler.start()
 
-        time.sleep(0.5)
         while 1:
+            time.sleep(0.1)
             s = input('$ ')
             self.sendline(s)
