@@ -98,7 +98,7 @@ class Client():
                 break
         return response
 
-    def recvuntil(self, msg):
+    def recvuntil(self, msg=None):
         '''
         recieve from target until it send msg
         if msg == -1: repeat print(recv) till the end
@@ -114,9 +114,9 @@ class Client():
         while 1:
             data = self.recv()
             response += data
-            if msg == -1:
-                print(data)
-            elif msg in data:
+            if data == '':
+                break
+            elif msg is not None and msg in data:
                 break
         return response
 
@@ -151,7 +151,7 @@ class Client():
         shell mode
         '''
         def recieve():
-            for i in range (10):
+            while 1:
                 response = self.recv()
                 if response != '':
                     print(response)
