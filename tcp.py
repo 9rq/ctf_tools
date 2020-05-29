@@ -11,7 +11,6 @@ import time
 import threading
 
 
-
 def exception(func):
     '''
     error handler
@@ -24,6 +23,7 @@ def exception(func):
             args[0].sock.close()
             exit(0)
     return wrapper
+
 
 class Client():
     '''
@@ -40,9 +40,9 @@ class Client():
         client.interactive()
     '''
 
-    def __init__(self, sock = None, target= None):
+    def __init__(self, sock=None, target=None):
         if sock is None:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # IPv4 ,TCP
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # IPv4 ,TCP
         else:
             self.sock = sock
 
@@ -94,7 +94,7 @@ class Client():
             if data == b'':
                 break
             response += data.decode('utf-8')
-            if data ==b'\n':
+            if data == b'\n':
                 break
         return response
 
@@ -114,12 +114,11 @@ class Client():
         while 1:
             data = self.recv()
             response += data
-            if msg ==-1:
+            if msg == -1:
                 print(data)
             elif msg in data:
                 break
         return response
-
 
     @exception
     def send(self, msg):
@@ -156,7 +155,7 @@ class Client():
                 response = self.recv()
                 if response != '':
                     print(response)
-        recieve_handler = threading.Thread(target = recieve)
+        recieve_handler = threading.Thread(target=recieve)
         recieve_handler.setDaemon(True)
         recieve_handler.start()
 
