@@ -38,6 +38,9 @@ class Client():
         print(client.recvuntil('Input'))
         client.send('b'*41)
         client.interactive()
+
+    Note:
+        recv is unstable when recieving '' consectively
     '''
 
     def __init__(self, sock=None, target=None):
@@ -100,8 +103,7 @@ class Client():
 
     def recvuntil(self, msg=None):
         '''
-        recieve from target until it send msg
-        if msg == -1: repeat print(recv) till the end
+        continue recieving from target until recieve msg or \b''
 
         Parameters:
             msg(str) : message
