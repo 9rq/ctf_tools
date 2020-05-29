@@ -11,6 +11,20 @@ import time
 import threading
 
 
+
+def exception(func):
+    '''
+    error handler
+    '''
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(e)
+            args[0].sock.close()
+            exit(0)
+    return wrapper
+
 class Client():
     '''
     TCP client
@@ -34,19 +48,6 @@ class Client():
 
         if target is not None:
             self.connect(target)
-
-    def exception(func):
-        '''
-        error handler
-        '''
-        def wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except Exception as e:
-                print(e)
-                self.sock.close()
-                exit(0)
-        return wrapper
 
     @exception
     def connect(self, target):
@@ -145,15 +146,16 @@ class Client():
             msg = msg.encode('utf-8')
         self.send(msg + b'\n')
 
-
+    @exception
     def interactive(self):
         '''
         shell mode
         '''
         def recieve():
-            while 1:
+            for i in range (10):
                 response = self.recv()
-                print(response)
+                if response != '':
+                    print(response)
         recieve_handler = threading.Thread(target = recieve)
         recieve_handler.setDaemon(True)
         recieve_handler.start()
