@@ -7,8 +7,6 @@ Todo:
 '''
 
 import socket
-import time
-import threading
 
 
 def exception(func):
@@ -20,6 +18,7 @@ def exception(func):
             return func(*args, **kwargs)
         except Exception as e:
             print(e)
+            print('exiting')
             args[0].sock.close()
             exit(0)
     return wrapper
@@ -60,6 +59,7 @@ class Client():
         Parameters:
             target(tuple(str,int)) : (host, port)
         '''
+        self.sock.settimeout(0.5)
         host, port = target
         self.sock.connect((host, port))
 
@@ -72,14 +72,15 @@ class Client():
             response (str) : data received from target
         '''
 
-        recv_len = 1
         response = ''
-        while recv_len:
-            data = self.sock.recv(4096)
-            recv_len = len(data)
-            response += data.decode('utf-8')
-            if recv_len < 4096:
-                break
+        try:
+            while 1:
+                data = self.sock.recv(4096)
+                if not data:
+                    break
+                response += data.decode('utf-8')
+        except socket.timeout:
+            pass
         return response
 
     @exception
@@ -93,8 +94,8 @@ class Client():
 
         response = ''
         while 1:
-            data = self.sock.recv(1)
-            if data == b'':
+            data = self.sock.recv()
+            if not data:
                 break
             response += data.decode('utf-8')
             if data == b'\n':
@@ -152,16 +153,8 @@ class Client():
         '''
         shell mode
         '''
-        def receive():
-            while 1:
-                response = self.recv()
-                if response != '':
-                    print(response)
-        receive_handler = threading.Thread(target=receive)
-        receive_handler.setDaemon(True)
-        receive_handler.start()
 
         while 1:
-            time.sleep(0.1)
-            s = input('$ ')
+            print(self.recv())
+            s = input()
             self.sendline(s)
