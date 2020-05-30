@@ -40,7 +40,7 @@ class Client():
         client.interactive()
 
     Note:
-        recv is unstable when recieving '' consectively
+        recv is unstable when receiving '' consectively
     '''
 
     def __init__(self, sock=None, target=None):
@@ -66,10 +66,10 @@ class Client():
     @exception
     def recv(self):
         '''
-        recieve till the end
+        receive till the end
 
         Returns:
-            response (str) : data recieved from target
+            response (str) : data received from target
         '''
 
         recv_len = 1
@@ -85,10 +85,10 @@ class Client():
     @exception
     def recvline(self):
         '''
-        recieve until \\n
+        receive until \\n
 
         Returns
-            response (str) : data recieved from target
+            response (str) : data received from target
         '''
 
         response = ''
@@ -103,13 +103,13 @@ class Client():
 
     def recvuntil(self, msg=None):
         '''
-        continue recieving from target until recieve msg or \b''
+        continue receiving from target until receive msg or \b''
 
         Parameters:
             msg(str) : message
 
         Returns:
-            response(str) : data recieved from target
+            response(str) : data received from target
         '''
 
         response = ''
@@ -152,14 +152,14 @@ class Client():
         '''
         shell mode
         '''
-        def recieve():
+        def receive():
             while 1:
                 response = self.recv()
                 if response != '':
                     print(response)
-        recieve_handler = threading.Thread(target=recieve)
-        recieve_handler.setDaemon(True)
-        recieve_handler.start()
+        receive_handler = threading.Thread(target=receive)
+        receive_handler.setDaemon(True)
+        receive_handler.start()
 
         while 1:
             time.sleep(0.1)
