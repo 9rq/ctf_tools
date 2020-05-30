@@ -154,6 +154,7 @@ class Client():
         shell mode
         '''
 
+        print('-'*30,'INTERACTIVE MODE', '-'*30)
         while 1:
             print(self.recv())
             s = input()
