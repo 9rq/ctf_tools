@@ -34,7 +34,7 @@ class Client():
     Example:
         client = Client(target = ('xxx.com', 5555))
         print(client.recvline())
-        print(client.recvuntil('Input'))
+        print(client.recvuntil('Input:'))
         client.send('b'*41)
         client.interactive()
 
@@ -59,31 +59,41 @@ class Client():
         Parameters:
             target(tuple(str,int)) : (host, port)
         '''
-        self.sock.settimeout(0.5)
+        self.sock.settimeout(0.1)
         host, port = target
         self.sock.connect((host, port))
 
     @exception
-    def recv(self):
+    def recv(self, n = None):
         '''
-        receive till the end
+        if n is given:
+            receive n bytes data
+        else:
+            receive till the end
+
+        Parameters:
+            n(int) : bytes
 
         Returns:
             response (str) : data received from target
         '''
 
         response = ''
+
         try:
-            while 1:
-                data = self.sock.recv(4096)
-                if not data:
-                    break
-                response += data.decode('utf-8')
+            if n is None:
+                while 1:
+                    data = self.sock.recv(4096).decode('utf-8')
+                    if not data:
+                        break
+                    response += data
+            else:
+                response = self.sock.recv(n).decode('utf-8')
         except socket.timeout:
             pass
+
         return response
 
-    @exception
     def recvline(self):
         '''
         receive until \\n
@@ -94,11 +104,11 @@ class Client():
 
         response = ''
         while 1:
-            data = self.sock.recv()
+            data = self.recv(1)
             if not data:
                 break
-            response += data.decode('utf-8')
-            if data == b'\n':
+            response += data
+            if data == '\n':
                 break
         return response
 
@@ -115,12 +125,14 @@ class Client():
 
         response = ''
         while 1:
-            data = self.recv()
+            data = self.recv(1)
             response += data
+            # print(data)
             if data == '':
                 break
-            elif msg is not None and msg in data:
+            elif msg is not None and response[-len(msg):] == msg:
                 break
+
         return response
 
     @exception
