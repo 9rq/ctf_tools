@@ -42,24 +42,28 @@ class Client():
         recv is unstable when receiving '' consectively
     '''
 
-    def __init__(self, sock=None, target=None):
+    def __init__(self, sock=None, target=None, timeout = None):
         if sock is None:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # IPv4 ,TCP
         else:
             self.sock = sock
 
         if target is not None:
-            self.connect(target)
+            self.connect(target, timeout)
 
     @exception
-    def connect(self, target):
+    def connect(self, target, timeout = None):
         '''
         connect to target
 
         Parameters:
             target(tuple(str,int)) : (host, port)
+            timeout(int) : second (default = 1)
         '''
-        self.sock.settimeout(0.1)
+
+        if timeout is None:
+            timeout = 1
+        self.sock.settimeout(timeout)
         host, port = target
         self.sock.connect((host, port))
 
