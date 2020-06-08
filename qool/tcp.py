@@ -40,6 +40,9 @@ class Client():
 
     Note:
         recv is unstable when receiving '' consectively
+
+    Todo:
+        interactive mode seems to work wrongly, when it has to receive more than one time
     '''
 
     def __init__(self, sock=None, target=None, timeout = None):
@@ -150,7 +153,7 @@ class Client():
 
         if type(msg) == str:
             msg = msg.encode('utf-8')
-        self.sock.send(msg)
+        self.sock.sendall(msg)
 
     def sendline(self, msg):
         '''
