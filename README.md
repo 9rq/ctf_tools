@@ -29,3 +29,7 @@ intをn bytesに変換する
 - RSA
     - Enc/Dec
     - Simple attack
+
+### SQL injection
+sqlmap対策されてるとき
+[参考](https://medium.com/@ismailtasdelen/sql-injection-payload-list-b97656cfd66b)
