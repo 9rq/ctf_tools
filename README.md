@@ -30,6 +30,15 @@ intをn bytesに変換する
     - Enc/Dec
     - Simple attack
 
+あとで自分で実装するもの
+http://inaz2.hatenablog.com/entry/2016/01/09/032344
+
 ### SQL injection
 sqlmap対策されてるとき
 [参考](https://medium.com/@ismailtasdelen/sql-injection-payload-list-b97656cfd66b)
+
+
+### Brute force
+brute force generator
+
+いろんな形に対応させたい(sql injectionなど)
