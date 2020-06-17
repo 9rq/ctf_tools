@@ -59,8 +59,10 @@ class RSA():
             elif p == q == 0:
                 p, q = self.key_attack(n)
             elif p == 0:
+                assert n%q ==0
                 p = n // q
             elif q == 0:
+                assert n%p == 0
                 q = n // p
 
             assert phi == 0
