@@ -30,6 +30,8 @@ intをn bytesに変換する
     - Enc/Dec
     - Simple attack
 
+素数表は[ここ](https://www.saoyagi2.net/integer/primelist.html)から
+
 あとで自分で実装するもの
 http://inaz2.hatenablog.com/entry/2016/01/09/032344
 
