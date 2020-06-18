@@ -5,6 +5,7 @@ https://medium.com/@ismailtasdelen/sql-injection-payload-list-b97656cfd66b
 
 import requests
 import re
+import os
 from tqdm import tqdm
 
 
@@ -21,7 +22,8 @@ class Injector:
         self.found = []
 
     def post_attack(self, data, target, attack_type, error_pattern):
-        with open(table[attack_type], 'r') as payloads:
+        path = os.path.join(os.path.dirname(__file__), table[attack_type])
+        with open(path, 'r') as payloads:
             # for payload in tqdm(payloads):
             for payload in tqdm(payloads):
                 if payload[0] == '#' or payload == '':
