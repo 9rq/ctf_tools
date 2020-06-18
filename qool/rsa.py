@@ -27,21 +27,26 @@ def small_key_attack(n):
     it will take almost 8s to execute.
     '''
     path = os.path.join(os.path.dirname(__file__), 'data/primelist100000000.txt')
-    with open(path, 'r') as f:
-        with tqdm(total=5761455) as pbar:
-            read_size = 0
+    try:
+        with open(path, 'r') as f:
+            with tqdm(total=5761455) as pbar:
+                read_size = 0
 
-            line = f.readline()
-            while line:
-                i = int(line.rstrip('\n'))
-                if n % i == 0:
-                    return (i, n//i)
                 line = f.readline()
-                read_size += 1
-                pbar.update(read_size)
-            else:
-                print('small key attack failed')
-                return
+                while line:
+                    i = int(line.rstrip('\n'))
+                    if n % i == 0:
+                        return (i, n//i)
+                    line = f.readline()
+                    read_size += 1
+                    pbar.update(read_size)
+                else:
+                    print('small key attack failed')
+                    return
+    except FileNotFoundError as e:
+        print(e)
+        print('download from here (https://www.saoyagi2.net/integer/primelist.html)')
+        return
 
 
 def similar_key_attack(n,till = 10**7):
