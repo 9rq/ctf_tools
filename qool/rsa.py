@@ -1,5 +1,5 @@
 from tqdm import tqdm
-
+import os
 
 def ex_euclid(x, y):
     '''
@@ -21,13 +21,28 @@ def ex_euclid(x, y):
         a0 += y
     return a0
 
-def small_key_attack(n, till= 10**7):
-    for i in tqdm(range(3,till,2)):
-        if n % i == 0:
-            return (i, n//i)
-    else:
-        print('small key attack failed')
-        return None
+def small_key_attack(n):
+    '''
+    smaller than 10 ** 8
+    it will take almost 8s to execute.
+    '''
+    path = os.path.join(os.path.dirname(__file__), 'data/primelist100000000.txt')
+    with open(path, 'r') as f:
+        with tqdm(total=5761455) as pbar:
+            read_size = 0
+
+            line = f.readline()
+            while line:
+                i = int(line.rstrip('\n'))
+                if n % i == 0:
+                    return (i, n//i)
+                line = f.readline()
+                read_size += 1
+                pbar.update(read_size)
+            else:
+                print('small key attack failed')
+                return
+
 
 def similar_key_attack(n,till = 10**7):
     m = int(n**0.5)
@@ -87,13 +102,13 @@ class RSA():
                 p, q = pq
 
         # check if p or q is almost same value
-        if p == q == 0:
-            pq = similar_key_attack(n)
-            if pq is not None:
-                p, q = pq
+        # if p == q == 0:
+        #     pq = similar_key_attack(n)
+        #     if pq is not None:
+        #         p, q = pq
 
         if p == q == 0:
-            raise ValueError('Failed to specific keys')
+            raise ValueError('Failed to specific keys. Access here(https://www.alpertron.com.ar/ECM.HTM) for more factorization')
 
         return p, q
 
